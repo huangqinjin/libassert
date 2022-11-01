@@ -6,7 +6,6 @@ project(
   LANGUAGES CXX
 )
 
-option(ASSERT_BUILD_TESTS "Enables tests" OFF)
 option(ASSERT_DECOMPOSE_BINARY_LOGICAL "Enables expression decomposition of && and ||" OFF)
 option(ASSERT_LOWERCASE "Enables assert alias for ASSERT" OFF)
 option(ASSERT_USE_MAGIC_ENUM "Use the MagicEnum library to print better diagnostics for enum classes" ON)
@@ -73,15 +72,14 @@ if(CMAKE_BUILD_TYPE STREQUAL "")
   message(FATAL_ERROR "Setting CMAKE_BUILD_TYPE is required")
 endif()
 
-if(ASSERT_BUILD_TESTS)
-  include(CTest)
-  add_test(
-    NAME run-tests.py
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
-    COMMAND
-    python3 run-tests.py --build --build_type=${CMAKE_BUILD_TYPE} --compiler=${CMAKE_CXX_COMPILER_ID}
-  )
-endif()
+include(CTest)
+add_test(
+  NAME run-tests.py
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests
+  COMMAND
+  python3 run-tests.py --build --build_type=${CMAKE_BUILD_TYPE} --compiler=${CMAKE_CXX_COMPILER_ID}
+)
+
 
 if(NOT CMAKE_SKIP_INSTALL_RULES)
   include(CMakePackageConfigHelpers)
